@@ -8,7 +8,7 @@ const createUser=async( name,email, hashedPassword) => {
     return result.rows[0];    
 };
 
-const findUsrByEmail=async(email)=>{
+const findUserByEmail=async(email)=>{
     const result=await query(
         'SELECT * FROM users WHERE email=$1',
         [email]
@@ -24,4 +24,4 @@ const findUserById=async(id)=>{
     return result.rows[0];
 };
 
-export {createUser,findUserById,findUsrByEmail};
+export {createUser,findUserById,findUserByEmail};
