@@ -27,4 +27,12 @@ const getAccountById = async (accountId) => {
   return result.rows[0];
 };
 
-export {createAccount,getAccountByUserId,getAccountById};
+
+const updateBalance=async(accountId,newBalance) => {
+  const result=await query(
+    'UPDATE accounts SET balance = $1 WHERE id=$2 RETURNING *',
+    [newBalance,accountId]
+  );
+  return result.rows[0];
+};
+export {createAccount,getAccountByUserId,getAccountById,updateBalance};
