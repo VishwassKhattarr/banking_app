@@ -19,4 +19,15 @@ const getAccountService = async (userId) => {
   return account;
 };
 
-export { createAccountService, getAccountService };
+const getBalanceService=async(userId)=>{
+  const account=getAccountByUserId(userId);
+  if(!account){
+    throw new Error("Account not found");
+  }
+
+  return{
+    balance:account.balance
+  };
+};
+
+export { createAccountService, getAccountService, getBalance};
