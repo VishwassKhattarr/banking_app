@@ -1,4 +1,4 @@
-import db from '../utils/db.js';
+import { query } from '../utils/db.js';
 
 const createTransaction = async ({
   senderAccountId,
@@ -7,9 +7,9 @@ const createTransaction = async ({
   type,
   status
 }) => {
-  const query = `
+  const queryString = `
     INSERT INTO transactions 
-    (sender_id_account_id, receiver_id_account_id, amount, type, status, created_at)
+    (sender_id, receiver_id, amount, type, status, created_at)
     VALUES ($1, $2, $3, $4, $5, NOW())
     RETURNING *;
   `;
@@ -22,8 +22,18 @@ const createTransaction = async ({
     status
   ];
 
-  const result = await db.query(query, values);
+  const result = await query(queryString, values);
   return result.rows[0];
 };
 
-export {createTransaction};
+const getTransactionByAccountId=async(accountId)=>{
+    const queryString= `SELECT * FROM transactions
+    WHERE sender_id=$1 OR receiver_id=$1
+    ORDER BY created_at DESC;
+    `;
+
+    const result=await query(queryString, [accountId]);
+    return result.rows;
+};
+
+export { createTransaction, getTransactionByAccountId };

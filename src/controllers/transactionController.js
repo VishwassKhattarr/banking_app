@@ -1,4 +1,5 @@
-import { deposit,withdraw,transfer } from "../services/transactionService";
+import { deposit,withdraw,transfer } from "../services/transactionService.js";
+import { getTransactionHistory } from "../services/transactionService.js";
 
 const depositController = async (req, res) => {
   try {
@@ -39,4 +40,16 @@ const transferController = async (req, res) => {
   }
 };
 
-export {depositController,withdrawController,transferController};
+const getTransactionHistoryController=async(req,res)=>{
+    try{
+        const userId=req.user.id;
+        const transactions =await getTransactionHistory(userId);
+        return res.status(200).json(transactions);
+    }catch (err){
+        return res.status(400).json({
+            error:err.message
+        });
+    }
+};
+
+export {depositController,withdrawController,transferController,getTransactionHistoryController};

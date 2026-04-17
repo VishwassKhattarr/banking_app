@@ -1,6 +1,7 @@
 import { getAccountByUserId, updateBalance } from "../models/accountModel.js";
 import { createTransaction } from "../models/transactionModel.js";
-import db from '../utils/db.js';
+import { getTransactionByAccountId } from "../models/transactionModel.js";
+import {query} from '../utils/db.js';
 
 const deposit=async(userId, amount) => {
     if(amount<=0){
@@ -85,7 +86,7 @@ const transfer = async(fromUserId, toUserId, amount) => {
     }
 
     // Start DB transaction
-    await db.query('BEGIN');
+    await query('BEGIN');
 
     try{
         // 3. Fetch accounts
@@ -119,7 +120,7 @@ const transfer = async(fromUserId, toUserId, amount) => {
     });
 
     // 7. Commit
-    await db.query('COMMIT');
+    await query('COMMIT');
 
     return {
       message: "Transfer successful",
@@ -127,9 +128,20 @@ const transfer = async(fromUserId, toUserId, amount) => {
     };
     }catch(err){
         // 8. Rollback if anything fails
-    await db.query('ROLLBACK');
+    await query('ROLLBACK');
     throw err;
     }
 };
 
-export {deposit, withdraw};
+const getTransactionHistory = async(userId)=> {
+    const account=await getAccountByUserId(userId);
+
+    if(!account){
+        throw new Error("Account not found");
+    }
+
+    const transactions=await getTransactionByAccountId(account.id);
+    return transactions;
+};
+
+export {deposit, withdraw, transfer, getTransactionHistory};
