@@ -6,6 +6,24 @@ const depositController = async (req, res) => {
     const userId = req.user.id; // 🔥 from middleware
     const { amount } = req.body;
 
+    if (!amount) {
+  return res.status(400).json({
+    error: "Amount is required"
+  });
+}
+
+if (typeof amount !== "number") {
+  return res.status(400).json({
+    error: "Amount must be a number"
+  });
+}
+
+if (amount <= 0) {
+  return res.status(400).json({
+    error: "Amount must be greater than 0"
+  });
+}
+
     const result = await deposit(userId, amount);
 
     return res.status(200).json(result);
@@ -31,6 +49,18 @@ const transferController = async (req, res) => {
   try {
     const fromUserId = req.user.id;
     const { toUserId, amount } = req.body;
+
+    if (!toUserId || !amount) {
+  throw new Error("Missing fields");
+}
+
+if (typeof amount !== "number" || amount <= 0) {
+  throw new Error("Invalid amount");
+}
+
+if (fromUserId === toUserId) {
+  throw new Error("Cannot transfer to yourself");
+}
 
     const result = await transfer(fromUserId, toUserId, amount);
 

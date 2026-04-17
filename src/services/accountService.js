@@ -30,4 +30,4 @@ const getBalanceService=async(userId)=>{
   };
 };
 
-export { createAccountService, getAccountService, getBalance};
+export { createAccountService, getAccountService, getBalanceService};
