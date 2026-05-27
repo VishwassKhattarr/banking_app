@@ -7,6 +7,7 @@ const registerUser = async (name, email, password) => {
   if (existingUser) {
     throw new Error('Email already registered');
   }
+  
 
   const hashed=await hashPassword(password);
   const user=await createUser(name,email,hashed);
@@ -19,6 +20,9 @@ const loginUser=async(email,password)=>{
     if(!user){
         throw new Error('Invalid emial or password');
     }
+    if(existingUser.is_blocked){
+     throw new Error("Your account has been blocked. Contact admin.");
+  }
 
     const token=generateToken({id:user.id,role:user.role});
     return {token, role: user.role, name:user.name};
