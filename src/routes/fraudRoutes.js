@@ -1,7 +1,7 @@
 import express from 'express';
-import { authMiddleware } from '../middlewares/authMiddleware';
-import { adminMiddleware } from '../middlewares/authMiddleware';
-import { getAllFraudAlerts,resolveFraudAlert } from '../controllers/fraudController';
+import  authMiddleware  from '../middlewares/authMiddleware.js';
+import  adminMiddleware  from '../middlewares/authMiddleware.js';
+import { getAllFraudAlerts,resolveFraudAlert } from '../controllers/fraudController.js';
 const router=express.Router();
 
 

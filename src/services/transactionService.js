@@ -1,20 +1,20 @@
 import {
     getAccountByUserId,
     updateBalance
-} from "../models/accountModel.js";
+} from '../models/accountModel.js';
 
 import {
     createTransaction,
     getTransactionByAccountId
-} from "../models/transactionModel.js";
+} from '../models/transactionModel.js';
 
-import { query } from "../utils/db.js";
+import { query } from '../utils/db.js';
 
-import { getUserByIdModel } from "../models/adminModel.js";
+import { getUserByIdModel } from '../models/adminModel.js';
 
 import {
     detectRapidTransactions
-} from "./fraud/fraudService.js";
+} from './fraud/fraudService.js';
 
 
 

@@ -1,4 +1,4 @@
-import { createFraudAlertModel, getRecentTransactionModel } from "../../models/fraudModel";
+import { createFraudAlertModel, getRecentTransactionModel } from '../../models/fraudModel.js';
 
 export const detectRapidTransactions =
 async (
